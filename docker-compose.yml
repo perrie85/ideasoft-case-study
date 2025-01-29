@@ -5,18 +5,15 @@ services:
             context: .
             dockerfile: Dockerfile
         ports:
-            - 885:8000
+            - 8000:8000
         volumes:
             - .:/var/www/html
         env_file:
             - .env
         command: "php artisan serve --host=0.0.0.0 --port=8000"
-        # command: "php artisan octane:start --host=0.0.0.0 --port=8000"
         depends_on:
             db:
                 condition: service_healthy
-            redis:
-                condition: service_started
         networks:
             - backend
 
@@ -24,11 +21,11 @@ services:
         container_name: database
         image: postgres:latest
         ports:
-            - 54321:5432
+            - 5432:5432
         volumes:
             - postgres-data:/var/lib/postgresql/data
         environment:
-            POSTGRES_DB: after_sales
+            POSTGRES_DB: ideasoft_case
             POSTGRES_USER: postgres
             POSTGRES_PASSWORD: postgres
         healthcheck:
@@ -39,28 +36,8 @@ services:
         networks:
             - backend
 
-    redis:
-        container_name: redis
-        image: redis:alpine
-        sysctls:
-            net.core.somaxconn: "511"
-        command: redis-server --appendonly yes
-        volumes:
-            - redis-data:/data
-        healthcheck:
-            test: ["CMD", "redis-cli", "ping"]
-            interval: 1s
-            timeout: 3s
-            retries: 30
-        ports:
-            - 8841:6379
-        networks:
-            - backend
-
 volumes:
     postgres-data:
-        driver: local
-    redis-data:
         driver: local
 
 networks:
