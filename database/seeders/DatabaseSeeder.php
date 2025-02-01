@@ -2,9 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
+use App\Models\Customer;
+use App\Models\Product;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -13,11 +15,46 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        Customer::query()->create(['name' => "Türker Jöntürk", 'revenue' => 0]);
+        Customer::query()->create(['name' => "Kaptan Devopuz", 'revenue' => 0]);
+        Customer::query()->create(['name' => "İsa Sonuyumaz", 'revenue' => 0]);
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $category1 = Category::query()->create(['name' => "Tornavida Seti"]);
+        $category2 = Category::query()->create(['name' => "Priz ve Anahtar"]);
+
+        Product::query()->create([
+            'name' => "Black&Decker A7062 40 Parça Cırcırlı Tornavida Seti",
+            'price' => 120.75,
+            'stock' => 10,
+            'category_id' => $category1->id,
+        ]);
+
+        Product::query()->create([
+            'name' => "Reko Mini Tamir Hassas Tornavida Seti 32'li",
+            'price' => 49.50,
+            'stock' => 10,
+            'category_id' => $category1->id,
+        ]);
+
+        Product::query()->create([
+            'name' => "Viko Karre Anahtar - Beyaz",
+            'price' => 11.28,
+            'stock' => 10,
+            'category_id' => $category2->id,
+        ]);
+
+        Product::query()->create([
+            'name' => "Legrand Salbei Anahtar, Alüminyum",
+            'price' => 22.80,
+            'stock' => 10,
+            'category_id' => $category2->id,
+        ]);
+
+        Product::query()->create([
+            'name' => "Schneider Asfora Beyaz Komütatör",
+            'price' => 12.95,
+            'stock' => 10,
+            'category_id' => $category2->id,
         ]);
     }
 }
