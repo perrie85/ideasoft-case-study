@@ -14,6 +14,10 @@ class AppliedDiscountResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'discountReason' => $this['discount_reason'],
+            'discountAmount' => $this['discount_amount'],
+            'subtotal' => $this['subtotal'],
+        ];
     }
 }

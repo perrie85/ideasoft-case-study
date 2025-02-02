@@ -21,14 +21,12 @@ class DiscountByTotalPipe implements PipeContract
                 $data->discountedTotal -= $discount;
 
                 $data->appliedDiscountResults[] = [
-                    'discount_reason' => DiscountTypeEnum::DISCOUNT_BY_CATEGORY->value,
+                    'discount_reason' => DiscountTypeEnum::DISCOUNT_BY_TOTAL->value,
                     'discount_amount' => $discount,
                     'subtotal' => $data->discountedTotal,
                 ];
             }
         });
-
-
 
         return $next($data);
     }

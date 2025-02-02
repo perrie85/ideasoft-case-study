@@ -25,7 +25,7 @@ class OrderDiscountService
         DiscountByTotalPipe::class,
     ];
 
-    public function handle(int $orderId)
+    public function handle(int $orderId): OrderDiscountResource
     {
         /**
          * Potential functionality for adding different types of discounts using this structure would be 
@@ -36,21 +36,18 @@ class OrderDiscountService
          *  - currently crud implementation is not implemented but handling for the discounts are 
          *      implemented considering we can have multiple discounts based on categories and products
          *  - if we want a new discount logic, it can be implemented as a pipe, and can be added in $pipes array above to be handle
+         *  - another improvement and honestly a necessity would be storing the applied discounts related to the order itself
          */
-        
+
         $order = $this->orderRepository->show($orderId);
 
         $activeDiscounts = $this->discountRepository->getActiveDiscounts();
 
-        $this->pipeline
+        return $this->pipeline
             ->send(new DiscountPipelineDto($order, $activeDiscounts, [], 0, $order->total))
             ->through($this->pipes)
-            ->then(
-                function ($pipelineData) {
-                    return OrderDiscountResource::make($pipelineData);
-                }
-            );
-
-        return $order;
+            ->then(function ($pipelineData) {
+                return OrderDiscountResource::make($pipelineData);
+            });
     }
 }

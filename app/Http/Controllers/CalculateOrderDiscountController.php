@@ -10,6 +10,6 @@ class CalculateOrderDiscountController extends Controller
 
     public function __invoke(int $orderId)
     {
-        return $this->successResponse([$this->service->handle($orderId)]);
+        return $this->successResponse($this->service->handle($orderId));
     }
 }
