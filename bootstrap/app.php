@@ -16,7 +16,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Exception $e) {
             $message = $e->getMessage();
             $code = $e->getCode() ?? 500;
-            dd($e);
             return response()->json(['message' => $message, 'code' => $code], is_string($code) ? 500 : $code);
         });
     })->create();

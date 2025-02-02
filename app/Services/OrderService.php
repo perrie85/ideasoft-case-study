@@ -28,7 +28,7 @@ class OrderService
         unset($data['items']);
 
         DB::beginTransaction();
-        $order = $this->repository->store($data);
+        $order = $this->repository->store($data)->load('customer');
 
         $orderTotal = 0;
         foreach ($orderProducts as $orderProduct) {
@@ -61,6 +61,9 @@ class OrderService
 
         $order->total = $orderTotal;
         $order->save();
+
+        $order->customer->revenue = $order->customer->revenue + $orderTotal;
+        $order->customer->save();
         DB::commit();
 
         return OrderResource::make($order->refresh()->load('orderProducts'));

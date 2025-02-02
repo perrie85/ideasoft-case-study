@@ -15,12 +15,17 @@ class OrderRepository
 
     public function index(): Collection
     {
-        return $this->model()::query()->with('orderProducts')->get();
+        return $this->model()::with('orderProducts')->get();
     }
 
     public function store(array $data): Model
     {
         return $this->model()::create($data);
+    }
+
+    public function show(int $id): Model
+    {
+        return $this->model()::with('orderProducts.product')->findOrFail($id);
     }
 
     public function destroy(int $id)
