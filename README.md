@@ -2,7 +2,7 @@
 
 Author : Furkan Çelik
 
-## [Postman Collection]()
+## [Postman Collection](https://github.com/perrie85/ideasoft-case-study/blob/main/Ideasoft%20Case%20Study.postman_collection.json)
 
 ## Requirements
 - Docker
